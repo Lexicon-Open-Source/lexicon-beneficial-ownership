@@ -1,15 +1,15 @@
-import React from 'react'
+import React from "react";
 
-function OptionalRendering ({ condition, children }: { condition: boolean, children: React.ReactNode }): React.ReactElement {
-  return (
-    condition
-      ? (
-      <div>
-        {children}
-      </div>
-        )
-      : <></>
-  )
+function OptionalRendering({
+  condition,
+  classname,
+  children,
+}: {
+  condition: boolean;
+  classname?: string;
+  children: React.ReactNode;
+}): React.ReactElement {
+  return condition ? <div className={classname ?? ""}>{children}</div> : <></>;
 }
 
-export default OptionalRendering
+export default OptionalRendering;

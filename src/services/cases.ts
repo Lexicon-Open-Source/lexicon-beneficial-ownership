@@ -14,7 +14,7 @@ export async function getCharts(): Promise<
 > {
   try {
     const response = await api<BaseResponse<GetChartsResponse>>(
-      BASE_URL + `/v1/beneficiary-ownership/chart`,
+      BASE_URL + `/v1/beneficiary-ownership/chart`
     );
     return { success: response };
   } catch (error) {
@@ -28,11 +28,11 @@ export async function getCharts(): Promise<
 }
 
 export async function getCase(
-  id: string,
+  id: string
 ): Promise<Return<BaseResponse<GetCasesResponse>>> {
   try {
     const response = await api<BaseResponse<GetCasesResponse>>(
-      BASE_URL + `/v1/beneficiary-ownership/detail/${id}`,
+      BASE_URL + `/v1/beneficiary-ownership/detail/${id}`
     );
     return { success: response };
   } catch (error) {
@@ -46,7 +46,7 @@ export async function getCase(
 }
 
 export async function getCases(
-  params: GetCasesParams,
+  params: GetCasesParams
 ): Promise<Return<BaseResponse<GetCasesResponse[]>>> {
   try {
     const queries = new URLSearchParams();
@@ -73,7 +73,7 @@ export async function getCases(
       queries.append(apiParams.year, params.year);
     }
     const response = await api<BaseResponse<GetCasesResponse[]>>(
-      BASE_URL + "/v1/beneficiary-ownership/search?" + queries.toString(),
+      BASE_URL + "/v1/beneficiary-ownership/search?" + queries.toString()
     );
     return { success: response };
   } catch (error) {

@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
-export default function AboutPage (): React.ReactElement {
+export default function AboutPage(): React.ReactElement {
   return (
-    <div className="py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-6 mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-28">
         <div>
           <h1 className="text-3xl font-bold mb-4">
             About Lexicon Beneficial Ownership
@@ -64,18 +64,19 @@ export default function AboutPage (): React.ReactElement {
             Find out more about us
           </h2>
           <p className="mb-4">
-            Checkout this link{' '}
+            Checkout this link{" "}
             <a
               target="_blank"
               className="text-blue-700 hover:opacity-80 transition-all duration-200"
-              href="https://accountabilitylab.org/anti-corruption-technologists-in-indonesia-use-tool-to-flag-fraudulent-entities/" rel="noreferrer"
+              href="https://accountabilitylab.org/anti-corruption-technologists-in-indonesia-use-tool-to-flag-fraudulent-entities/"
+              rel="noreferrer"
             >
               https://accountabilitylab.org/anti-corruption-technologists-in-indonesia-use-tool-to-flag-fraudulent-entities/
-            </a>{' '}
+            </a>{" "}
             to see how we build Lexicon Beneficial Ownership
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

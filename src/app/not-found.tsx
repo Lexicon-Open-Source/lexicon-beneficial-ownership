@@ -1,12 +1,12 @@
-import Link from 'next/link'
-import React from 'react'
+import Link from "next/link";
+import React from "react";
 
 // TODO: Update implementation
-export default function NotFound (): React.ReactElement {
+export default function NotFound(): React.ReactElement {
   return (
-    <main className="py-24 text-center">
+    <main className="py-24 text-center mt-20">
       <h1>Page not found</h1>
-      <Link href={'/'}>Go back to home</Link>
+      <Link href={"/"}>Go back to home</Link>
     </main>
-  )
+  );
 }

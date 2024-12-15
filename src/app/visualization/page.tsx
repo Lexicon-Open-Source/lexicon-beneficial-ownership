@@ -1,6 +1,6 @@
 "use server";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { getCharts } from "@/services/cases";
 import Chart from "./chart";
@@ -13,7 +13,7 @@ export default async function VisualizationPage(): Promise<React.ReactElement> {
   }
 
   return (
-    <main className="py-8 flex flex-col justify-center items-center">
+    <main className="py-8 flex flex-col justify-center items-center pt-20">
       <div className="py-16">
         <Image
           src="/images/img_background_small.png"
