@@ -16,7 +16,7 @@ export default async function DetailPage({
   }
 
   return (
-    <main className="mt-8 sm:mt-16 mb-12 sm:mb-36 mx-4 sm:mx-[297px]">
+    <main className="mt-8 sm:mt-16 mb-12 sm:mb-36 mx-4 sm:mx-[297px] pt-20">
       <DetailPersonTable data={response.success?.data} />
     </main>
   );
