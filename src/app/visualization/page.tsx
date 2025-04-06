@@ -4,6 +4,8 @@ import React from "react";
 import Image from "next/image";
 import { getCharts } from "@/services/cases";
 import Chart from "./chart";
+import { cn } from "@/utils/helper";
+import SegmentedChart from "./segmented-chart";
 
 export default async function VisualizationPage(): Promise<React.ReactElement> {
   const response = await getCharts();
@@ -29,20 +31,7 @@ export default async function VisualizationPage(): Promise<React.ReactElement> {
           </h5>
         </div>
       </div>
-      <div className="flex flex-col w-full px-32 py-16 gap-24">
-        <div className="border border-colorBorder rounded-xl p-5">
-          <h3 className="text-2xl font-semibold">Cases by Nations</h3>
-          <Chart data={response?.success?.data?.countries ?? []} />
-        </div>
-        <div className="border border-colorBorder rounded-xl p-5">
-          <h3 className="text-2xl font-semibold">Cases by Subject Types</h3>
-          <Chart data={response?.success?.data?.subjet_types ?? []} />
-        </div>
-        <div className="border border-colorBorder rounded-xl p-5">
-          <h3 className="text-2xl font-semibold">Cases by Case Types</h3>
-          <Chart data={response?.success?.data?.case_types ?? []} />
-        </div>
-      </div>
+      <SegmentedChart response={response} />
     </main>
   );
 }
