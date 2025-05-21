@@ -126,7 +126,7 @@ export function BarChartHorizontal(props: Props): React.ReactElement {
     <Bar
       className="mt-10"
       data={data}
-      height={"20px"}
+      height={"100px"}
       options={{
         plugins: {
           legend: { display: false },
@@ -194,7 +194,7 @@ export function PieChart(props: Props): React.ReactElement {
       data={data}
       options={{
         plugins: {
-          legend: { display: true, position: "left" },
+          legend: { display: true, position: "bottom" },
         },
         indexAxis: "y",
       }}

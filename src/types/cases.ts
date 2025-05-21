@@ -33,3 +33,11 @@ export interface ChartResponse {
   name?: string;
   value?: number;
 }
+
+export interface LkppChartResponse {
+  blacklist_province: ChartResponse[];
+  ceiling_distribution: ChartResponse[];
+  top_ten_reporter: ChartResponse[];
+  scenario_distribution: ChartResponse[];
+  violation_distribution: ChartResponse[];
+}

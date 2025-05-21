@@ -2,6 +2,7 @@ import {
   type GetCasesResponse,
   type GetCasesParams,
   GetChartsResponse,
+  LkppChartResponse,
 } from "@/types/cases";
 import { BASE_URL } from "./api";
 import { type Return } from "@/types/returns";
@@ -15,6 +16,24 @@ export async function getCharts(): Promise<
   try {
     const response = await api<BaseResponse<GetChartsResponse>>(
       BASE_URL + `/v1/beneficiary-ownership/chart`
+    );
+    return { success: response };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: error.message };
+    } else if (typeof error === "string") {
+      return { error };
+    }
+    return { error: "Unexpected error" };
+  }
+}
+
+export async function getLkppCharts(): Promise<
+  Return<BaseResponse<LkppChartResponse>>
+> {
+  try {
+    const response = await api<BaseResponse<LkppChartResponse>>(
+      BASE_URL + `/v1/beneficiary-ownership/lkpp-chart`
     );
     return { success: response };
   } catch (error) {

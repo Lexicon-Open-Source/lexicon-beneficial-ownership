@@ -1,19 +1,8 @@
-"use server";
-
 import React from "react";
 import Image from "next/image";
-import { getCharts } from "@/services/cases";
-import Chart from "./chart";
-import { cn } from "@/utils/helper";
-import SegmentedChart from "./segmented-chart";
+import ClientSegmentedChart from "./client-segmented-chart";
 
-export default async function VisualizationPage(): Promise<React.ReactElement> {
-  const response = await getCharts();
-
-  if (response.error != null) {
-    throw new Error(response.error);
-  }
-
+export default function VisualizationPage(): React.ReactElement {
   return (
     <main className="py-8 flex flex-col justify-center items-center pt-20">
       <div className="py-16">
@@ -31,7 +20,7 @@ export default async function VisualizationPage(): Promise<React.ReactElement> {
           </h5>
         </div>
       </div>
-      <SegmentedChart response={response} />
+      <ClientSegmentedChart />
     </main>
   );
 }

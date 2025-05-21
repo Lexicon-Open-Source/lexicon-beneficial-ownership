@@ -5,12 +5,18 @@ import Chart, { BarChartHorizontal, PieChart } from "./chart";
 import { cn } from "@/utils/helper";
 import { Return } from "@/types/returns";
 import { BaseResponse } from "@/types/responses";
-import { ChartResponse, GetChartsResponse } from "@/types/cases";
+import {
+  ChartResponse,
+  GetChartsResponse,
+  LkppChartResponse,
+} from "@/types/cases";
 
 export default function SegmentedChart({
   response,
+  responseLkppChart,
 }: {
   response: Return<BaseResponse<GetChartsResponse>>;
+  responseLkppChart: Return<BaseResponse<LkppChartResponse>>;
 }) {
   const [selected, setSelected] = useState("all");
 
@@ -89,15 +95,20 @@ export default function SegmentedChart({
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Jambi
-                    </th>
-                    <td className="px-6 py-4">100</td>
-                  </tr>
+                  {responseLkppChart.success?.data?.blacklist_province?.map(
+                    (province) => (
+                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                        <th
+                          key={province.name}
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {province.name}
+                        </th>
+                        <td className="px-6 py-4">{province.value}</td>
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </table>
             </div>
@@ -110,10 +121,16 @@ export default function SegmentedChart({
 
             <div className="relative overflow-x-auto mt-4">
               <BarChartHorizontal
-                data={[
-                  { name: "20-30M", value: 1500 },
-                  { name: "30-50M", value: 1000 },
-                ]}
+                data={
+                  responseLkppChart?.success?.data?.ceiling_distribution.map(
+                    (distribution) => {
+                      return {
+                        name: distribution.name ?? "",
+                        value: distribution.value ?? 0,
+                      };
+                    }
+                  ) ?? []
+                }
               />
             </div>
           </div>
@@ -126,10 +143,16 @@ export default function SegmentedChart({
 
               <div className="relative overflow-x-auto mt-4">
                 <PieChart
-                  data={[
-                    { name: "20-30M", value: 1500 },
-                    { name: "30-50M", value: 1000 },
-                  ]}
+                  data={
+                    responseLkppChart?.success?.data?.scenario_distribution.map(
+                      (distribution) => {
+                        return {
+                          name: distribution.name ?? "",
+                          value: distribution.value ?? 0,
+                        };
+                      }
+                    ) ?? []
+                  }
                 />
               </div>
             </div>
@@ -140,10 +163,16 @@ export default function SegmentedChart({
 
               <div className="relative overflow-x-auto mt-4">
                 <PieChart
-                  data={[
-                    { name: "20-30M", value: 1500 },
-                    { name: "30-50M", value: 1000 },
-                  ]}
+                  data={
+                    responseLkppChart?.success?.data?.violation_distribution.map(
+                      (distribution) => {
+                        return {
+                          name: distribution.name ?? "",
+                          value: distribution.value ?? 0,
+                        };
+                      }
+                    ) ?? []
+                  }
                 />
               </div>
             </div>
@@ -154,49 +183,16 @@ export default function SegmentedChart({
 
             <div className="relative overflow-x-auto mt-4">
               <Chart
-                data={[
-                  {
-                    name: "Kementerian Pekerjaan Umum dan Perumahan Rakyat",
-                    value: 1500,
-                  },
-                  {
-                    name: "Kementerian Pekerjaan Umum dan Perumahan Rakyat",
-                    value: 1500,
-                  },
-                  {
-                    name: "Kementerian Pekerjaan Umum dan Perumahan Rakyat",
-                    value: 1500,
-                  },
-                  {
-                    name: "Kementerian Pekerjaan Umum dan Perumahan Rakyat",
-                    value: 1500,
-                  },
-                  {
-                    name: "Kementerian Pekerjaan Umum dan Perumahan Rakyat",
-                    value: 1500,
-                  },
-                  {
-                    name: "Kementerian Pekerjaan Umum dan Perumahan Rakyat",
-                    value: 1500,
-                  },
-                  {
-                    name: "Kementerian Pekerjaan Umum dan Perumahan Rakyat",
-                    value: 1500,
-                  },
-                  {
-                    name: "Kementerian Pekerjaan Umum dan Perumahan Rakyat",
-                    value: 1500,
-                  },
-                  {
-                    name: "Kementerian Pekerjaan Umum dan Perumahan Rakyat",
-                    value: 1500,
-                  },
-                  {
-                    name: "Kementerian Pekerjaan Umum dan Perumahan Rakyat",
-                    value: 1500,
-                  },
-                  { name: "Kementerian Keuangan", value: 1000 },
-                ]}
+                data={
+                  responseLkppChart?.success?.data?.top_ten_reporter.map(
+                    (distribution) => {
+                      return {
+                        name: distribution.name ?? "",
+                        value: distribution.value ?? 0,
+                      };
+                    }
+                  ) ?? []
+                }
               />
             </div>
           </div>
