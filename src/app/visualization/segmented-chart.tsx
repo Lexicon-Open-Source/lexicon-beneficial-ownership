@@ -5,11 +5,7 @@ import Chart, { BarChartHorizontal, PieChart } from "./chart";
 import { cn } from "@/utils/helper";
 import { Return } from "@/types/returns";
 import { BaseResponse } from "@/types/responses";
-import {
-  ChartResponse,
-  GetChartsResponse,
-  LkppChartResponse,
-} from "@/types/cases";
+import { GetChartsResponse, LkppChartResponse } from "@/types/cases";
 
 export default function SegmentedChart({
   response,
@@ -97,9 +93,11 @@ export default function SegmentedChart({
                 <tbody>
                   {responseLkppChart.success?.data?.blacklist_province?.map(
                     (province) => (
-                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                      <tr
+                        key={province.name}
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
+                      >
                         <th
-                          key={province.name}
                           scope="row"
                           className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                         >
