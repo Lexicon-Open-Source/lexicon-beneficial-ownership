@@ -29,7 +29,7 @@ export default function SegmentedChart({
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
-            All Data
+            Global Data
           </button>
           <button
             onClick={() => setSelected("indonesian")}
@@ -114,7 +114,7 @@ export default function SegmentedChart({
 
           <div className="border border-colorBorder rounded-xl p-5">
             <h3 className="text-2xl font-semibold">
-              Package Distribution Based on Budget Value
+              Package Distribution Based on Budget Ceiling
             </h3>
 
             <div className="relative overflow-x-auto mt-4">
