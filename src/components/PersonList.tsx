@@ -5,6 +5,7 @@ import { type GetCasesParams, type GetCasesResponse } from "@/types/cases";
 import { type BaseResponse } from "@/types/responses";
 import { type Return } from "@/types/returns";
 import { capitalizeFirstLetter } from "@/utils/strings";
+import { formatNumber } from "@/utils/helper";
 import React, { useEffect, useState, type ReactElement } from "react";
 import useSWR, { type Fetcher } from "swr";
 import PageBreakIcon from "./icons/PageBreakIcon";
@@ -41,7 +42,7 @@ export default function PersonList({
       revalidateOnMount: false,
       revalidateIfStale: false,
       revalidateOnFocus: false,
-    },
+    }
   );
 
   useEffect(() => {
@@ -114,10 +115,12 @@ export default function PersonList({
             <p className="text-colorPrimaryText">
               Showing{" "}
               <span className="font-bold">
-                {(data?.success?.meta?.current_page ?? 0) * 20}{" "}
+                {formatNumber((data?.success?.meta?.current_page ?? 0) * 20)}{" "}
               </span>
               out of{" "}
-              <span className="font-bold">{data?.success?.meta?.total}</span>
+              <span className="font-bold">
+                {formatNumber(data?.success?.meta?.total)}
+              </span>
             </p>
             <Button
               onClick={() => {

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Chart, { BarChartHorizontal, PieChart } from "./chart";
 import { cn } from "@/utils/helper";
+import { formatNumber } from "@/utils/helper";
 import { Return } from "@/types/returns";
 import { BaseResponse } from "@/types/responses";
 import { GetChartsResponse, LkppChartResponse } from "@/types/cases";
@@ -103,7 +104,9 @@ export default function SegmentedChart({
                         >
                           {province.name}
                         </th>
-                        <td className="px-6 py-4">{province.value}</td>
+                        <td className="px-6 py-4">
+                          {formatNumber(province.value)}
+                        </td>
                       </tr>
                     )
                   )}
