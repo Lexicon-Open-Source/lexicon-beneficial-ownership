@@ -5,6 +5,7 @@ import "chart.js/auto";
 import React, { useState } from "react";
 import { ChartResponse, GetChartsResponse } from "@/types/cases";
 import { Pie } from "react-chartjs-2";
+import { formatNumber } from "@/utils/helper";
 
 const Bar = dynamic(
   async () => await import("react-chartjs-2").then((mod) => mod.Bar),
@@ -21,6 +22,15 @@ export default function Chart(props: Props): React.ReactElement {
   const chartOptions = {
     plugins: {
       legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            return `${context.dataset.label}: ${formatNumber(
+              context.parsed.y
+            )}`;
+          },
+        },
+      },
     },
   };
 
@@ -75,7 +85,17 @@ export function BarChartHorizontal(props: Props): React.ReactElement {
   const chartOptions = {
     plugins: {
       legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            return `${context.dataset.label}: ${formatNumber(
+              context.parsed.x
+            )}`;
+          },
+        },
+      },
     },
+    indexAxis: "y" as const,
   };
 
   const [data] = useState({
@@ -127,12 +147,7 @@ export function BarChartHorizontal(props: Props): React.ReactElement {
       className="mt-10"
       data={data}
       height={"100px"}
-      options={{
-        plugins: {
-          legend: { display: false },
-        },
-        indexAxis: "y",
-      }}
+      options={chartOptions}
     />
   );
 }
@@ -140,7 +155,14 @@ export function BarChartHorizontal(props: Props): React.ReactElement {
 export function PieChart(props: Props): React.ReactElement {
   const chartOptions = {
     plugins: {
-      legend: { display: false },
+      legend: { display: true, position: "bottom" as const },
+      tooltip: {
+        callbacks: {
+          label: function (context: any) {
+            return `${context.label}: ${formatNumber(context.parsed)}`;
+          },
+        },
+      },
     },
   };
 
@@ -188,16 +210,5 @@ export function PieChart(props: Props): React.ReactElement {
     ],
   });
 
-  return (
-    <Pie
-      className="mt-10"
-      data={data}
-      options={{
-        plugins: {
-          legend: { display: true, position: "bottom" },
-        },
-        indexAxis: "y",
-      }}
-    />
-  );
+  return <Pie className="mt-10" data={data} options={chartOptions} />;
 }

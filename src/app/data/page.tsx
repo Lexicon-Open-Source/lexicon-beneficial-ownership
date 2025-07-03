@@ -10,6 +10,7 @@ import SearchIcon from "@/components/icons/SearchIcon";
 import OptionalRendering from "@/components/ui/OptionalRendering";
 import FilterNation from "@/components/FilterNation";
 import FilterYear from "@/components/FilterYear";
+import { formatNumber } from "@/utils/helper";
 import Image from "next/image";
 
 export default function DataPage(): React.ReactElement {
@@ -126,8 +127,8 @@ export default function DataPage(): React.ReactElement {
       <div className="flex flex-col py-12 items-center px-4 sm:px-[120px] bg-white gap-8">
         <OptionalRendering condition={total > 0}>
           <h3 className="px-0 sm:px-[177px] text-2xl text-center font-semibold">
-            {total} entities in all subject types, all record types, all
-            nationalities, and every year.
+            {formatNumber(total)} entities in all subject types, all record
+            types, all nationalities, and every year.
           </h3>
         </OptionalRendering>
         <PersonList setTotal={setTotal} />
