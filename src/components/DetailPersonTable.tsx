@@ -58,7 +58,7 @@ export default function DetailPersonTable({
       <p
         className="mt-2 text-colorSecondaryText"
         dangerouslySetInnerHTML={{
-          __html: data?.summary ?? "",
+          __html: (data?.summary ?? "").replaceAll("\n", "<br />"),
         }}
       />
     </>
