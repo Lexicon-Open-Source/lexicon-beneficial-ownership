@@ -65,6 +65,10 @@ jobs:
             VERSION=${{ steps.version.outputs.version }}
             BUILD_TIME=${{ steps.version.outputs.build_time }}
             GIT_COMMIT=${{ steps.version.outputs.commit }}
+            NEXT_PUBLIC_API_KEY=${{ secrets.NEXT_PUBLIC_API_KEY }}
+            NEXT_PUBLIC_SALT=${{ secrets.NEXT_PUBLIC_SALT }}
+            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+            NEXT_PUBLIC_BASE_URL_CHATBOT=${{ secrets.NEXT_PUBLIC_BASE_URL_CHATBOT }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

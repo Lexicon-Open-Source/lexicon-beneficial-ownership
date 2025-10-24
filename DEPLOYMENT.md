@@ -2,6 +2,16 @@
 
 This guide explains how to deploy the Lexicon Beneficial Ownership application using Dokploy with GitHub Actions for automated CI/CD.
 
+## Important: Environment Variables in Standalone Builds
+
+This application uses Next.js with `output: 'standalone'` mode, which means:
+
+- **`NEXT_PUBLIC_*` variables are embedded at BUILD time**, not runtime
+- These variables must be provided as **Docker build arguments**
+- Changing these variables requires a **full rebuild**, not just a container restart
+- In Dokploy: Use "Build Args" section, NOT "Environment Variables"
+- In GitHub Actions: Set as GitHub Secrets (passed as build args automatically)
+
 ## Prerequisites
 
 - A Dokploy instance running and accessible
@@ -35,9 +45,11 @@ If using Dockerfile:
 If using Docker Compose:
 - **Docker Compose File**: `./docker-compose.yml`
 
-### 5. Set Environment Variables
+### 5. Set Build Arguments
 
-Add the following environment variables in Dokploy:
+**Important**: Since we use Next.js standalone build, `NEXT_PUBLIC_*` environment variables must be set as **build arguments**, not runtime environment variables.
+
+In Dokploy, configure the following build arguments:
 
 ```
 NEXT_PUBLIC_API_KEY=<your-api-key>
@@ -66,25 +78,70 @@ Once the deployment is complete:
 2. Verify all features are working correctly
 3. Check that environment variables are properly loaded
 
+## Local Testing with Docker
+
+To test the Docker build locally before deploying:
+
+1. Create a `.env` file in the project root with your environment variables:
+
+   ```bash
+   NEXT_PUBLIC_API_KEY=your_api_key
+   NEXT_PUBLIC_SALT=your_salt
+   NEXT_PUBLIC_BASE_URL=http://localhost:3000
+   NEXT_PUBLIC_BASE_URL_CHATBOT=http://localhost:8080
+   ```
+
+2. Build and run with Docker Compose:
+
+   ```bash
+   docker-compose up --build
+   ```
+
+   Or build with Docker directly:
+
+   ```bash
+   docker build \
+     --build-arg NEXT_PUBLIC_API_KEY=your_api_key \
+     --build-arg NEXT_PUBLIC_SALT=your_salt \
+     --build-arg NEXT_PUBLIC_BASE_URL=http://localhost:3000 \
+     --build-arg NEXT_PUBLIC_BASE_URL_CHATBOT=http://localhost:8080 \
+     -t lexicon-bo .
+
+   docker run -p 3000:3000 lexicon-bo
+   ```
+
+3. Access the application at `http://localhost:3000`
+
 ## Troubleshooting
 
 ### Build Fails
 
-- Check build logs in Dokploy dashboard
-- Verify all environment variables are set
+- Check build logs in Dokploy dashboard or GitHub Actions
+- Verify all build arguments are set (not environment variables)
 - Ensure the Dockerfile and next.config.mjs are correctly configured
+- For GitHub Actions, verify all secrets are properly configured
 
 ### Application Not Starting
 
 - Verify port 3000 is exposed correctly
 - Check container logs for Node.js errors
 - Ensure all dependencies are installed correctly
+- Verify sharp package is installed correctly
 
 ### Environment Variables Not Working
 
-- Verify variables are set in Dokploy (not just in .env files)
-- Remember that `NEXT_PUBLIC_` variables are embedded at build time
-- Rebuild the application after changing environment variables
+- **CRITICAL**: `NEXT_PUBLIC_*` variables must be set as **build arguments**, not runtime environment variables
+- In Dokploy: Set them in the "Build Args" section, not "Environment Variables"
+- In GitHub Actions: Set them as GitHub Secrets
+- Remember that changing these variables requires a **rebuild**, not just a restart
+- Verify the variables are available during the build by checking build logs
+
+### Image Optimization Errors (sharp)
+
+If you see errors about missing `sharp` module:
+- Ensure `sharp` is in `package.json` dependencies
+- Verify build dependencies are installed in Dockerfile (python3, make, g++)
+- Check that `libc6-compat` is installed in the runtime stage
 
 ## Updating the Application
 
@@ -121,11 +178,24 @@ Before the automated deployment works, you need to configure the following secre
 2. Navigate to **Settings** > **Secrets and variables** > **Actions**
 3. Add the following secrets:
 
+#### Deployment Secrets
+
 | Secret Name | Description | Example |
 |-------------|-------------|---------|
 | `DOKPLOY_API_TOKEN` | Your Dokploy API token | `dpl_xxxxxxxxxxxxx` |
 | `DOKPLOY_APPLICATION_ID` | Your application ID in Dokploy | `app_xxxxxxxxxxxxx` |
 | `DOKPLOY_API_URL` | Your Dokploy instance URL | `https://dokploy.yourdomain.com` |
+
+#### Application Environment Variables
+
+**Important**: These are required for the Docker build since Next.js standalone mode embeds `NEXT_PUBLIC_*` variables at build time.
+
+| Secret Name | Description | Required |
+|-------------|-------------|----------|
+| `NEXT_PUBLIC_API_KEY` | Your API key | Yes |
+| `NEXT_PUBLIC_SALT` | Salt for encryption | Yes |
+| `NEXT_PUBLIC_BASE_URL` | Base URL for the application | Yes |
+| `NEXT_PUBLIC_BASE_URL_CHATBOT` | Base URL for chatbot service | Yes |
 
 ### How to Get Dokploy Credentials
 
